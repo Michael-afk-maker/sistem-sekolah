@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Controllers\StudentController;
+
 class Router
 {
 
@@ -13,12 +15,16 @@ class Router
         //https://google.com/search
 
         if($method == 'GET' && $uri == '/students'){
-            
+            require_once './app/controllers/StudentsContollers.php';
+            $controller = new StudentController();
+            $controller->index();
             return;
         }
 
         if($method == 'GET' && $uri == '/students/create'){
-            
+               require_once './app/controllers/StudentsContollers.php';
+            $controller = new StudentController();
+            $controller->create();
             return;
         }
 
