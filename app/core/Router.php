@@ -2,7 +2,6 @@
 
 namespace App\Core;
 
-use App\Controllers\StudentController;
 
 class Router
 {
@@ -27,19 +26,19 @@ class Router
             $pattern = str_replace(
                 '{id}',
                 '([0-9]+)',
-                $route
+                $route['uri']
             );
 
             $pattern = '#^' . $pattern . '$#';
 
             if(preg_match($pattern, $uri, $matches)){
-                 require_once './app/controllers/'. $route['controller'] .'.php';
+                 require_once '../app/controllers/'. $route['controller'] .'.php';
                  array_shift($matches);
                  $controllerClass = 'App\\Controllers\\'.$route['controller'];
                  $controller = new $controllerClass();
                  
                  $function = $route['function'];
-                 $controller->$function();
+                 call_user_func_array([$controller, $function], args: $matches);
 
                  return;
             }
@@ -47,19 +46,7 @@ class Router
 
         //https://google.com/search
 
-        if($method == 'GET' && $uri == '/students'){
-            require_once './app/controllers/StudentsContollers.php';
-            $controller = new StudentController();
-            $controller->index();
-            return;
-        }
-
-        if($method == 'GET' && $uri == '/students/create'){
-               require_once './app/controllers/StudentsContollers.php';
-            $controller = new StudentController();
-            $controller->create();
-            return;
-        }
+    
 
         http_response_code(404);
         echo '<h1>404 - Page Not Found</h1>';
