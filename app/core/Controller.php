@@ -15,8 +15,9 @@ public function view(string $view, array $data = [])
         $view
     );
 
-    
-    require_once "../app/views/{$view}.php";
+    $content = "../app/views/{$view}.php";
+
+    require_once "../app/views/layouts/app.php";
 
 
 }
